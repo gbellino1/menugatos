@@ -186,13 +186,12 @@ if opcion_menu == "🏠 Inicio":
     st.info("💡 **Sistema de Libertad:** Ingredientes Reales • Proteína Vegetal • Calma")
 
 # ---------------------------------------------------------
-# SECCIÓN 2: MENÚ SEMANAL (NUEVO MÓDULO)
+# SECCIÓN 2: MENÚ SEMANAL
 # ---------------------------------------------------------
 elif opcion_menu == "📅 Menú Semanal":
     st.title("Planificador de Menú Semanal 🗓️")
     st.write("Seleccioná las opciones que vas a preparar o que ya comiste. Los platos tildados se tacharán automáticamente para ayudarte a no repetir preparaciones.")
 
-    # Filtros y controles top
     col_f1, col_f2, col_f3 = st.columns([2, 2, 1])
     
     with col_f1:
@@ -216,7 +215,6 @@ elif opcion_menu == "📅 Menú Semanal":
 
     st.divider()
 
-    # Muestreo de datos por categoría
     for categoria in ["Desayunos y Meriendas", "Almuerzos y Cenas"]:
         if categoria in cat_filtro:
             st.subheader(f"🥣 {categoria}" if categoria == "Desayunos y Meriendas" else f"🍲 {categoria}")
@@ -255,48 +253,235 @@ elif opcion_menu == "📅 Menú Semanal":
             st.markdown("<br>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# SECCIÓN 3: RECETARIO
+# SECCIÓN 3: RECETARIO INTEGRADO Y AMPLIADO
 # ---------------------------------------------------------
 elif opcion_menu == "📖 Recetario":
     st.title("Banco de Recetas 📖")
-    
+    st.write("Explorá nuestras recetas con ingredientes reales, alta densidad proteica y listas para integrarse a la rutina.")
+
     recetas = [
         {
             "nombre": "Brownie Proteico de Porotos Negros",
             "desc": "Un clásico denso y chocolatoso. Nadie adivina que está hecho de legumbres.",
-            "tags": ["Desayuno", "Merienda", "Freezer"],
+            "tags": ["Desayuno", "Merienda", "Freezer", "Proteico"],
             "tiempo": "40 min", "porciones": "9 porciones", "proteina": "Alta", "dificultad": "Muy Fácil",
-            "ingredientes": ["2 tazas porotos negros cocidos", "1/2 taza cacao amargo", "1/2 taza avena", "1/3 taza sirope", "1/4 taza aceite coco", "2 cdas semillas chía", "Vainilla", "Pizca sal"],
-            "pasos": ["Precalentar horno a 180°C.", "Procesar todos los ingredientes.", "Verter en molde 20x20.", "Hornear 25-30 min.", "Enfriar antes de cortar."],
-            "por_que": "Lo hacemos el domingo y tenemos desayunos listos para toda la semana."
+            "ingredientes": [
+                "2 tazas porotos negros cocidos y escurridos", 
+                "1/2 taza cacao amargo en polvo", 
+                "1/2 taza avena en hojuelas", 
+                "1/3 taza miel de caña o sirope", 
+                "1/4 taza aceite de coco fundido", 
+                "2 cdas semillas de chía hidratadas en 6 cdas de agua", 
+                "1 cdita extracto de vainilla", 
+                "1 pizca de sal marina",
+                "Nueces picadas a gusto"
+            ],
+            "pasos": [
+                "Precalentar el horno a 180°C y engrasar un molde cuadrado de 20x20 cm.",
+                "Procesar los porotos cocidos con la chía hidratada y el aceite de coco hasta lograr una crema lisa.",
+                "Agregar el cacao, la avena, el endulzante, la vainilla y la sal. Procesar hasta integrar bien.",
+                "Volcar la mezcla en el molde, emparejar la superficie y colocar nueces por encima.",
+                "Hornear durante 25-30 minutos. Dejar enfriar completamente antes de cortar en cuadrados."
+            ],
+            "por_que": "Lo preparamos durante el Meal Prep del domingo y nos asegura meriendas nutritivas para toda la semana."
+        },
+        {
+            "nombre": "Escones de Lenteja Turca",
+            "desc": "Salados, crocantes por fuera y suaves por dentro. Perfectos para acompañar hummus o palta.",
+            "tags": ["Desayuno", "Merienda", "Freezer", "Sin Gluten"],
+            "tiempo": "35 min", "porciones": "8 unidades", "proteina": "Alta", "dificultad": "Fácil",
+            "ingredientes": [
+                "1 taza lentejas turcas (rojas) remojadas 4 horas en agua",
+                "1/4 taza aceite de oliva",
+                "1/4 taza agua o bebida vegetal",
+                "1 cdita polvo de hornear",
+                "1 cdita sal fina y provenzal a gusto",
+                "2 cdas semillas de sésamo o girasol para espolvorear"
+            ],
+            "pasos": [
+                "Escurrir muy bien las lentejas remojadas.",
+                "Procesar las lentejas con el aceite, el agua, la sal y los condimentos hasta obtener una masa pastosa.",
+                "Agregar el polvo de hornear y mezclar suavemente.",
+                "Formar bollitos sobre una placa de horno con papel manteca o silicona.",
+                "Espolvorear con sésamo y hornear a 190°C por 20-25 minutos hasta que estén dorados."
+            ],
+            "por_que": "Aportan proteína y fibra desde la mañana de forma salada y súper práctica."
         },
         {
             "nombre": "Curry Rápido de Garbanzos",
             "desc": "El salvavidas cremoso y reconfortante para noches cansadas.",
             "tags": ["Almuerzo", "Cena", "Rápida", "Freezer"],
             "tiempo": "20 min", "porciones": "4 porciones", "proteina": "Alta", "dificultad": "Fácil",
-            "ingredientes": ["2 latas garbanzos", "1 lata leche coco", "2 tazas espinaca", "1 cebolla", "Especias curry", "Jengibre y ajo"],
-            "pasos": ["Sofreír cebolla, ajo y jengibre.", "Agregar especias y garbanzos.", "Incorporar leche de coco y cocinar 10 min.", "Apagar y sumar espinaca fresca."],
-            "por_que": "Es nuestro 'plato abrazo'. Ensucia una sola olla y reconforta siempre."
+            "ingredientes": [
+                "2 latas de garbanzos (o 3 tazas cocidos)",
+                "1 lata de leche de coco light",
+                "2 tazas de espinaca fresca limpia",
+                "1 cebolla grande picada fino",
+                "2 dientes de ajo y 1 cda de jengibre rallado",
+                "1 cda de curry en polvo + 1/2 cdita de comino",
+                "Aceite de oliva, sal y pimienta"
+            ],
+            "pasos": [
+                "En una olla, sofreír la cebolla, el ajo y el jengibre con oliva a fuego medio.",
+                "Agregar el curry y comino, revolviendo 1 minuto para activar los aromas.",
+                "Sumar los garbanzos escurridos y la leche de coco. Cocinar a fuego lento durante 10 minutos.",
+                "Apagar el fuego, incorporar la espinaca fresca y revolver hasta que reduzca por el calor residual."
+            ],
+            "por_que": "Es nuestro 'plato abrazo'. Ensucia una sola olla y rinde impecable al recalentar."
+        },
+        {
+            "nombre": "Fideos con Pestofu Creamy",
+            "desc": "Salsa verde rica en proteínas que convierte un plato de pastas clásico en una bomba nutricional.",
+            "tags": ["Almuerzo", "Cena", "Rápida", "Proteico"],
+            "tiempo": "15 min", "porciones": "3 porciones", "proteina": "Alta", "dificultad": "Muy Fácil",
+            "ingredientes": [
+                "250g fideos integrales o de legumbres",
+                "200g tofu firme",
+                "1 taza de albahaca fresca",
+                "1/4 taza de nueces o almendras",
+                "2 cdas de levadura nutricional",
+                "1 diente de ajo",
+                "3 cdas de aceite de oliva, sal, pimienta y agua de cocción"
+            ],
+            "pasos": [
+                "Cocinar los fideos en agua hirviendo con sal.",
+                "En licuadora o procesadora, colocar el tofu, albahaca, frutos secos, ajo, levadura nutricional, oliva y sal.",
+                "Procesar agregando chorritos de agua de la pasta caliente hasta lograr una textura cremosa.",
+                "Mezclar el pestofu directamente con la pasta caliente recién escurrida."
+            ],
+            "por_que": "El tofu pasa desapercibido y le da una textura cremosa al pesto sin necesidad de crema pesada."
+        },
+        {
+            "nombre": "Tacos de Lentejas sazonadas",
+            "desc": "Relleno estilo 'carne picada vegetal' con especias intensas.",
+            "tags": ["Cena", "Intermedio", "Meal Prep"],
+            "tiempo": "25 min", "porciones": "4 porciones", "proteina": "Media-Alta", "dificultad": "Fácil",
+            "ingredientes": [
+                "2 tazas lentejas cocidas (al dente)",
+                "1 cebolla y 1/2 morrón rojo picados",
+                "1 cda pimentón ahumado, 1 cdita comino, 1/2 cdita ají molido",
+                "2 cdas extracto de tomate",
+                "Tortillas de maíz o trigo",
+                "Para acompañar: palta, tomate picado y limón"
+            ],
+            "pasos": [
+                "Saltear la cebolla y el morrón en una sartén con aceite de oliva hasta ablandar.",
+                "Agregar las especias y el extracto de tomate, cocinando por 1 minuto.",
+                "Incorporar las lentejas cocidas y aplastar un tercio de ellas con un tenedor para dar textura.",
+                "Cocinar 5-7 minutos hasta que los sabores se integren.",
+                "Servir caliente sobre tortillas doradas con palta y tomate fresco."
+            ],
+            "por_que": "Ideal para cenas divertidas de viernes. La mezcla de especias le da un sabor increíble."
+        },
+        {
+            "nombre": "Falafel Dorado al Horno",
+            "desc": "Croquetas tradicionales de garbanzos remojados pero horneadas para menor contenido de aceite.",
+            "tags": ["Almuerzo", "Cena", "Freezer", "Sin Gluten"],
+            "tiempo": "35 min", "porciones": "12 falafels", "proteina": "Alta", "dificultad": "Intermedio",
+            "ingredientes": [
+                "2 tazas garbanzos secos (remojados 12 hs, NO cocidos)",
+                "1/2 taza cilantro fresco y perejil",
+                "1 cebolla chica y 2 dientes de ajo",
+                "1 cda comino en polvo, sal y pimienta",
+                "1 cdita bicarbonato de sodio",
+                "2 cdas aceite de oliva"
+            ],
+            "pasos": [
+                "Escurrir y secar muy bien los garbanzos remojados.",
+                "Procesar los garbanzos con cebolla, ajo, hierbas frescas y especias hasta obtener un granulado fino.",
+                "Agregar sal y bicarbonato. Dejar reposar la mezcla 15 minutos en heladera.",
+                "Formar bolitas ligeramente achatadas con las manos húmedas.",
+                "Colocar en placa aceitada, pincelar con aceite de oliva y hornear a 200°C por 20 min girando a mitad de cocción."
+            ],
+            "por_que": "Se pueden congelar crudos y mandar directo al horno cuando hay poco tiempo."
+        },
+        {
+            "nombre": "Pizza con Base de Garbanzo y Queso de Girasol",
+            "desc": "Sin harinas refinadas. Una base crujiente y proteica recubierta de cebolla caramelizada.",
+            "tags": ["Cena", "Elaborado", "Sin Gluten"],
+            "tiempo": "45 min", "porciones": "2 personas", "proteina": "Alta", "dificultad": "Intermedio",
+            "ingredientes": [
+                "1 taza harina de garbanzo + 1 taza agua (para la fainá/base)",
+                "2 cebollas grandes cortadas en pluma",
+                "1/2 taza semillas de girasol remojadas 4 horas",
+                "1 cda levadura nutricional, jugo de 1/2 limón, ajo en polvo y sal",
+                "Orégano y aceitunas negras"
+            ],
+            "pasos": [
+                "Mezclar la harina de garbanzo con el agua, 1 cda de oliva y sal. Dejar reposar 20 min.",
+                "Caramelizar las cebollas a fuego lento en sartén con una pizca de sal.",
+                "Procesar el girasol remojado con limón, levadura nutricional, sal y un hilo de agua hasta hacer una crema densa (queso vegetal).",
+                "Volcar la mezcla de garbanzo en una pizzera aceitada y hornear a 200°C por 15 min hasta que firme.",
+                "Cubrir con la crema de girasol, las cebollas salteadas, orégano y terminar de dorar en el horno."
+            ],
+            "por_que": "Satisface las ganas de pizza los fines de semana dejando una sensación súper liviana."
+        },
+        {
+            "nombre": "Tostada de Palta con Tofu Revuelto",
+            "desc": "El reemplazo definitivo del huevo revuelto, lleno de cúrcuma y proteína vegetal.",
+            "tags": ["Desayuno", "Merienda", "Rápida", "Proteico"],
+            "tiempo": "10 min", "porciones": "2 tostadas", "proteina": "Media-Alta", "dificultad": "Muy Fácil",
+            "ingredientes": [
+                "150g tofu firme desmenuzado con tenedor",
+                "1/2 cdita cúrcuma en polvo",
+                "1/4 cdita sal negra (Kala Namak) para sabor ahuevo o sal común",
+                "1 cdita levadura nutricional",
+                "2 rodajas de pan integral de masa madre",
+                "1/2 palta pisada con limón"
+            ],
+            "pasos": [
+                "En sartén con unas gotas de oliva, saltear el tofu desmenuzado durante 3 minutos.",
+                "Agregar la cúrcuma, sal negra y levadura nutricional. Revolver bien por 2 minutos más.",
+                "Tostar el pan, untar con la palta pisada y colocar el tofu revuelto tibio encima."
+            ],
+            "por_que": "Aporta energía duradera y saciedad para arrancar mañanas activas."
         }
     ]
-    
+
+    # Controles de Búsqueda y Filtro en el Recetario
+    col_busq, col_tag = st.columns([2, 2])
+    with col_busq:
+        search_query = st.text_input("🔍 Buscar por nombre o ingrediente:", "")
+    with col_tag:
+        tag_filtro = st.multiselect(
+            "Filtrar por Etiqueta:",
+            options=["Desayuno", "Merienda", "Almuerzo", "Cena", "Freezer", "Rápida", "Proteico", "Sin Gluten"],
+            default=[]
+        )
+
+    # Filtrado lógico
+    recetas_filtradas = []
     for r in recetas:
-        with st.expander(f"🍲 {r['nombre']} ({r['tiempo']})"):
-            st.write(f"*{r['desc']}*")
-            st.caption(f"**Etiquetas:** {', '.join(r['tags'])} | **Dificultad:** {r['dificultad']} | **Proteína:** {r['proteina']}")
-            
-            col_ing, col_paso = st.columns(2)
-            with col_ing:
-                st.markdown("**Ingredientes:**")
-                for ing in r['ingredientes']:
-                    st.markdown(f"- {ing}")
-            with col_paso:
-                st.markdown("**Pasos:**")
-                for idx, paso in enumerate(r['pasos'], 1):
-                    st.markdown(f"{idx}. {paso}")
-            
-            st.info(f"**¿Por qué nos encanta?:** {r['por_que']}")
+        coincide_texto = search_query.lower() in r['nombre'].lower() or search_query.lower() in r['desc'].lower() or any(search_query.lower() in ing.lower() for ing in r['ingredientes'])
+        coincide_tag = True if not tag_filtro else any(t in r['tags'] for t in tag_filtro)
+        
+        if coincide_texto and coincide_tag:
+            recetas_filtradas.append(r)
+
+    st.divider()
+
+    if not recetas_filtradas:
+        st.info("No se encontraron recetas que coincidan con tu búsqueda.")
+    else:
+        for r in recetas_filtradas:
+            with st.expander(f"🍲 {r['nombre']} — ⏱️ {r['tiempo']}"):
+                st.write(f"*{r['desc']}*")
+                
+                # Badges de tags
+                tags_html = " ".join([f"`{t}`" for t in r['tags']])
+                st.markdown(f"**Etiquetas:** {tags_html} | **Dificultad:** {r['dificultad']} | **Proteína:** {r['proteina']} | **Rinde:** {r['porciones']}")
+                
+                col_ing, col_paso = st.columns(2)
+                with col_ing:
+                    st.markdown("#### 🛒 Ingredientes")
+                    for ing in r['ingredientes']:
+                        st.markdown(f"- {ing}")
+                with col_paso:
+                    st.markdown("#### 👨‍🍳 Preparación Paso a Paso")
+                    for idx, paso in enumerate(r['pasos'], 1):
+                        st.markdown(f"**{idx}.** {paso}")
+                
+                st.info(f"💡 **¿Por qué está en nuestro manual?:** {r['por_que']}")
 
 # ---------------------------------------------------------
 # SECCIÓN 4: MEAL PREP
@@ -334,9 +519,9 @@ elif opcion_menu == "❄️ Freezer":
     freezer_df = pd.DataFrame([
         {"Alimento": "Hamburguesas Veggie", "Duración": "3-4 meses", "Método Recalentado": "Directo a sartén u horno"},
         {"Alimento": "Guisos y Currys", "Duración": "3 meses", "Método Recalentado": "Bajar a heladera noche anterior"},
-        {"Alimento": "Panes y Masas", "Duración": "2-3 meses", "Método Recalentado": "Tostadora directo"},
-        {"Alimento": "Legumbres cocidas", "Duración": "3 meses", "Método Recalentado": "Directo a sopas o agua caliente"},
-        {"Alimento": "Tofu prensado", "Duración": "3-5 meses", "Método Recalentado": "Descongelar y marinar"}
+        {"Alimento": "Panes y Escones", "Duración": "2-3 meses", "Método Recalentado": "Tostadora o sartén directo"},
+        {"Alimento": "Legumbres cocidas", "Duración": "3 meses", "Método Recalentado": "Directo a sopas o sartén caliente"},
+        {"Alimento": "Tofu prensado/marinado", "Duración": "3-5 meses", "Método Recalentado": "Descongelar y dorar en sartén"}
     ])
     
     busqueda = st.text_input("🔍 Buscar alimento en el freezer:")
