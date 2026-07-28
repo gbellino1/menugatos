@@ -417,6 +417,242 @@ elif opcion_menu == "📖 Recetario":
             "por_que": "Satisface las ganas de pizza los fines de semana dejando una sensación súper liviana."
         },
         {
+            "nombre": "Omelette Proteico",
+            "porciones": "1-2 porciones",
+            "proteinas": "18g",
+            "ingredientes": [
+                "1/2 taza de harina de garbanzos",
+                "1/2 taza de agua o bebida vegetal sin endulzar",
+                "1 cucharadita de cúrcuma",
+                "1/2 cucharadita de sal negra Kala Namak (da sabor a huevo)",
+                "1/2 taza de verduras picadas (espinaca, tomate, cebolla)",
+                "1 cucharadita de aceite de oliva"
+            ],
+            "pasos": [
+                "En un bol, mezclar la harina de garbanzos, el agua, la cúrcuma y la sal negra hasta obtener una mezcla homogénea sin grumos.",
+                "Saltar brevemente las verduras elegidas en una sartén antiadherente con una gota de aceite.",
+                "Verter la mezcla de garbanzo sobre las verduras repartiendo de manera uniforme.",
+                "Cocinar a fuego medio tapado durante 4-5 minutos hasta que la superficie esté firme.",
+                "Doblar por la mitad con cuidado, cocinar 1 minuto más y servir caliente."
+            ]
+        },
+        {
+            "nombre": "Falafel Crocante",
+            "porciones": "12 unidades",
+            "proteinas": "15g (por porción)",
+            "ingredientes": [
+                "1 taza de garbanzos secos (remojados por 12-24 hs, NO cocidos)",
+                "1/2 cebolla picada",
+                "2 dientes de ajo",
+                "1/2 taza de perejil y cilantro fresco picado",
+                "1 cucharadita de comino en polvo",
+                "2 cucharadas de harina de garbanzo o avena",
+                "Sal y pimienta al gusto",
+                "1 cucharadita de polvo de hornear"
+            ],
+            "pasos": [
+                "Procesar los garbanzos remojados y escurridos junto con la cebolla, ajo, hierbas y condimentos hasta lograr una pasta granulada.",
+                "Agregar la harina de garbanzo y el polvo de hornear. Mezclar bien y dejar reposar en la heladera 30 minutos.",
+                "Formar bolitas o hamburguesitas comprimiendo bien con las manos.",
+                "Cocinar al horno a 200°C durante 20-25 minutos (girando a la mitad) o en airfryer hasta que estén dorados y crocantes."
+            ]
+        },
+        {
+            "nombre": "Tofu Revuelto Proteico",
+            "porciones": "2 porciones",
+            "proteinas": "22g",
+            "ingredientes": [
+                "200g de tofu firme",
+                "1 cucharada de levadura nutricional",
+                "1/2 cucharadita de cúrcuma",
+                "1/2 cucharadita de sal negra Kala Namak",
+                "2 cucharadas de bebida vegetal sin endulzar",
+                "Pimienta negra y comino al gusto",
+                "1 cucharada de aceite de oliva"
+            ],
+            "pasos": [
+                "Desmigajar el tofu con las manos o un tenedor logrando trozos irregulares.",
+                "En una sartén con aceite de oliva a fuego medio, colocar el tofu y saltear por 3 minutos.",
+                "Añadir la cúrcuma, la levadura nutricional, la sal negra y las especias.",
+                "Agregar la bebida vegetal para darle cremosidad y revolver durante 2-3 minutos hasta integrar.",
+                "Servir solo o sobre tostadas integrales."
+            ]
+        },
+        {
+            "nombre": "Fainá Tradicional Proteica",
+            "porciones": "4 porciones",
+            "proteinas": "12g",
+            "ingredientes": [
+                "200g de harina de garbanzos",
+                "600ml de agua a temperatura ambiente",
+                "3 cucharadas de aceite de oliva",
+                "1 cucharadita de sal fina",
+                "Pimienta negra recién molida"
+            ],
+            "pasos": [
+                "Mezclar la harina de garbanzos con la sal e incorporar el agua progresivamente batiendo con batidor de alambre para evitar grumos.",
+                "Dejar reposar la mezcla al menos 1 hora (idealmente 3-4 horas). Retirar la espuma que se forma en la superficie.",
+                "Precalentar el horno a 220°C con la pizzera o molde adentro.",
+                "Agregar el aceite de oliva a la mezcla y verter con cuidado sobre la pizzera caliente.",
+                "Hornear durante 25-30 minutos hasta que los bordes estén dorados y crocantes."
+            ]
+        },
+        {
+            "nombre": "Untable de Castañas y Levadura Nutricional",
+            "porciones": "1 frasco (250g)",
+            "proteinas": "10g (por porción)",
+            "ingredientes": [
+                "150g de castañas de cajú (remojadas en agua caliente 30 min)",
+                "2 cucharadas de levadura nutricional sabor queso",
+                "1/4 taza de agua",
+                "2 cucharadas de jugo de limón",
+                "1 diente de ajo pequeño (opcional)",
+                "1/2 cucharadita de sal fina"
+            ],
+            "pasos": [
+                "Escurrir y enjuagar las castañas de cajú remojadas.",
+                "Colocar todos los ingredientes en una licuadora o procesadora de alta potencia.",
+                "Procesar durante 3-5 minutos raspando los bordes hasta obtener una crema suave y homogénea.",
+                "Ajustar sal o limón según el gusto y refrigerar antes de consumir."
+            ]
+        },
+        {
+            "nombre": "Pizza Proteica con Base de Legumbres",
+            "porciones": "2 porciones",
+            "proteinas": "28g",
+            "ingredientes": [
+                "1 taza de lentejas rojas o garbanzos remojados (4 horas)",
+                "1/2 taza de agua",
+                "1 cucharadita de orégano y ajo en polvo",
+                "1/2 taza de salsa de tomate casera",
+                "100g de queso vegetal derritible o tofu rallado",
+                "Hojas de albahaca y vegetales a elección"
+            ],
+            "pasos": [
+                "Licuar las lentejas rojas escurridas con el agua y los condimentos hasta obtener una pasta fluida.",
+                "Verter sobre una sartén antiadherente o placa para horno con papel manteca formando un disco fino.",
+                "Cocinar 7-10 minutos de un lado, dar vuelta y cocinar 3 minutos más.",
+                "Cubrir con salsa de tomate, queso vegetal y vegetales. Hornear a 200°C hasta que el queso derrita."
+            ]
+        },
+        {
+            "nombre": "Salsa Boloñesa de Soja Texturizada",
+            "porciones": "4 porciones",
+            "proteinas": "25g",
+            "ingredientes": [
+                "1 taza de soja texturizada fina",
+                "1 taza de caldo vegetal caliente",
+                "1 cebolla grande picada",
+                "1 zanahoria rallada",
+                "1 pimiento rojo picado",
+                "500g de tomate triturado",
+                "2 dientes de ajo, orégano, pimentón dulce y laurel"
+            ],
+            "pasos": [
+                "Hidratar la soja texturizada en el caldo vegetal durante 10 minutos. Escurrir bien el exceso de líquido.",
+                "En una olla, saltear la cebolla, ajo, pimiento y zanahoria con aceite de oliva hasta que estén tiernos.",
+                "Agregar la soja texturizada e incorporar el pimentón y orégano salteando 3 minutos.",
+                "Verter el tomate triturado, sumar la hoja de laurel y cocinar a fuego lento durante 20 minutos.",
+                "Servir sobre pastas integrales o legumbres."
+            ]
+        },
+        {
+            "nombre": "Tofu Agridulce Crocante",
+            "porciones": "2 porciones",
+            "proteinas": "24g",
+            "ingredientes": [
+                "300g de tofu firme prensado y en cubos",
+                "2 cucharadas de fécula de maíz (maizena)",
+                "2 cucharadas de salsa de soja",
+                "1 cucharada de sirope de arce o agave",
+                "2 cucharadas de vinagre de manzana o arroz",
+                "1 cucharada de ketchup o concentrado de tomate",
+                "1/2 taza de caldo vegetal"
+            ],
+            "pasos": [
+                "Pasar los cubos de tofu por la fécula de maíz asegurando que queden bien cubiertos.",
+                "Dorar los cubos en una sartén con aceite a fuego medio-alto hasta que estén crocantes de todos lados.",
+                "En un bol pequeño, mezclar salsa de soja, sirope, vinagre, ketchup y el caldo vegetal.",
+                "Verter la salsa sobre el tofu en la sartén y saltear a fuego medio hasta que la salsa espese y glacé el tofu."
+            ]
+        },
+        {
+            "nombre": "Milanesas de Seitán",
+            "porciones": "6 milanesas",
+            "proteinas": "32g (por unidad)",
+            "ingredientes": [
+                "1.5 tazas de gluten puro de trigo",
+                "3 cucharadas de levadura nutricional",
+                "1 cucharadita de pimentón ahumado y ajo en polvo",
+                "1 taza de caldo vegetal sabroso (frío)",
+                "Para rebozar: 1/2 taza de harina de garbanzo ligada con agua + pan rallado con semillas"
+            ],
+            "pasos": [
+                "Mezclar el gluten, levadura nutricional y condimentos secos en un bol.",
+                "Agregar el caldo vegetal e integrar rápidamente hasta formar una masa elástica.",
+                "Cortar en 6 porciones y estirar con palo de amasar formando bifes finos.",
+                "Hervir las milanesas en caldo durante 25 minutos. Escurrir y enfriar.",
+                "Pasar por la mezcla de harina de garbanzo con agua (ligue) y luego por pan rallado. Hornear o freír hasta dorar."
+            ]
+        },
+        {
+            "nombre": "Pan Proteico de Lentejas",
+            "porciones": "1 molde mediano",
+            "proteinas": "12g (por rebanada)",
+            "ingredientes": [
+                "2 tazas de lentejas secas (remojadas 8 horas y escurridas)",
+                "1/2 taza de agua",
+                "1/4 taza de aceite de oliva",
+                "1 cucharadita de sal",
+                "1 cucharada de polvo de hornear",
+                "Mix de semillas (chía, lino, sésamo) para decorar"
+            ],
+            "pasos": [
+                "Procesar las lentejas remojadas con el agua, aceite de oliva y sal hasta obtener una masa homogénea.",
+                "Incorporar el polvo de hornear y mezclar suavemente.",
+                "Verter la mezcla en un molde para budín enharinado o con papel manteca.",
+                "Espolvorear el mix de semillas por encima y hornear a 180°C durante 45-50 minutos."
+            ]
+        },
+        {
+            "nombre": "Hummus Clásico de Garbanzos",
+            "porciones": "4 porciones",
+            "proteinas": "10g",
+            "ingredientes": [
+                "400g de garbanzos cocidos",
+                "2 cucharadas de tahini (pasta de sésamo)",
+                "Jugo de 1 limón",
+                "1 diente de ajo",
+                "1/2 cucharadita de comino",
+                "3 cucharadas de agua helada o hielo",
+                "Aceite de oliva y pimentón para decorar"
+            ],
+            "pasos": [
+                "Procesar los garbanzos cocidos, el tahini, el jugo de limón, ajo, comino y sal.",
+                "Agregar el agua helada o cubitos de hielo mientras se procesa para lograr una textura ultra cremosa.",
+                "Servir en un plato hondo con un chorro de aceite de oliva y pimentón ahumado."
+            ]
+        },
+        {
+            "nombre": "Guiso Proteico de Legumbres",
+            "porciones": "4 porciones",
+            "proteinas": "22g",
+            "ingredientes": [
+                "1 taza de lentejas cocidas",
+                "1 taza de garbanzos cocidos",
+                "1/2 taza de soja texturizada gruesa hidratada",
+                "1 cebolla, 1 pimiento, 2 dientes de ajo",
+                "1 batata en cubos y 1/2 taza de calabaza en cubos",
+                "400g de tomate triturado y 2 tazas de caldo vegetal"
+            ],
+            "pasos": [
+                "Saltear la cebolla, pimiento y ajo en una olla grande.",
+                "Agregar la batata, la calabaza y la soja texturizada hidratada. Cocinar 5 minutos.",
+                "Verter el tomate triturado y el caldo vegetal. Tapar y dejar cocinar a fuego medio hasta que los vegetales estén tiernos.",
+                "Incorporar las lentejas y garbanzos cocidos. Cocinar 10 minutos más para integrar sabores."
+            ]
+        },
+        {
             "nombre": "Tostada de Palta con Tofu Revuelto",
             "desc": "El reemplazo definitivo del huevo revuelto, lleno de cúrcuma y proteína vegetal.",
             "tags": ["Desayuno", "Merienda", "Rápida", "Proteico"],
