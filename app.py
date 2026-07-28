@@ -129,293 +129,12 @@ menu_data = [
     {"categoria": "Almuerzos y Cenas", "plato": "Milanesa de coliflor con tofu", "tiempo": "Elaborado"}
 ]
 
-# Inicializar Session State para checkboxes del menú
-if "selected_meals" not in st.session_state:
-    st.session_state.selected_meals = set()
-
 # ---------------------------------------------------------
-# MENÚ LATERAL DE NAVEGACIÓN
+# DICCIONARIO DE RECETAS (CONSERVADAS + NUEVAS AGREGADAS)
 # ---------------------------------------------------------
-st.sidebar.title("Nuestro Manual")
-st.sidebar.markdown("*Versión Digital 2.0*")
-st.sidebar.divider()
-
-opcion_menu = st.sidebar.radio(
-    "Navegación",
-    [
-        "🏠 Inicio", 
-        "📅 Menú Semanal", 
-        "📖 Recetario", 
-        "⏳ Meal Prep", 
-        "❄️ Freezer", 
-        "🌱 Nutrición"
-    ]
-)
-
-st.sidebar.divider()
-st.sidebar.caption('"Que siempre encontremos disfrute en nutrirnos."')
-
-# ---------------------------------------------------------
-# SECCIÓN 1: INICIO
-# ---------------------------------------------------------
-if opcion_menu == "🏠 Inicio":
-    st.title("Bienvenidos a nuestra cocina 🌿")
-    st.markdown("""
-    Este espacio es la extensión digital de nuestro manual físico. Aquí centralizamos la organización para que cocinar 
-    no sea una carga, sino un acto de cuidado. Una guía viva, flexible y enfocada en la nutrición basada en plantas sin la 
-    rigidez de las dietas convencionales.
-    """)
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("""
-        <div class="card-box">
-            <h3 style="color: #8A9A86;">Filosofía Diaria</h3>
-            <p>No buscamos la perfección. Buscamos reducir la fatiga de decisión. Si tenemos bases listas, comer bien es inevitable.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-    with col2:
-        st.markdown("""
-        <div class="card-box">
-            <h3 style="color: #C97A63;">El Método</h3>
-            <p>Cocinamos bases el domingo, congelamos el excedente y ensamblamos bowls o platos rápidos en minutos durante la semana.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.info("💡 **Sistema de Libertad:** Ingredientes Reales • Proteína Vegetal • Calma")
-
-# ---------------------------------------------------------
-# SECCIÓN 2: MENÚ SEMANAL
-# ---------------------------------------------------------
-elif opcion_menu == "📅 Menú Semanal":
-    st.title("Planificador de Menú Semanal 🗓️")
-    st.write("Seleccioná las opciones que vas a preparar o que ya comiste. Los platos tildados se tacharán automáticamente para ayudarte a no repetir preparaciones.")
-
-    col_f1, col_f2, col_f3 = st.columns([2, 2, 1])
-    
-    with col_f1:
-        cat_filtro = st.multiselect(
-            "Filtrar por Categoría:",
-            options=["Desayunos y Meriendas", "Almuerzos y Cenas"],
-            default=["Desayunos y Meriendas", "Almuerzos y Cenas"]
-        )
-    with col_f2:
-        tiempo_filtro = st.multiselect(
-            "Filtrar por Tiempo/Elaboración:",
-            options=["Rápido", "Intermedio", "Elaborado"],
-            default=["Rápido", "Intermedio", "Elaborado"]
-        )
-    with col_f3:
-        st.write(" ")
-        st.write(" ")
-        if st.button("🔄 Reiniciar Semana", use_container_width=True):
-            st.session_state.selected_meals = set()
-            st.rerun()
-
-    st.divider()
-
-    for categoria in ["Desayunos y Meriendas", "Almuerzos y Cenas"]:
-        if categoria in cat_filtro:
-            st.subheader(f"🥣 {categoria}" if categoria == "Desayunos y Meriendas" else f"🍲 {categoria}")
-            
-            platos_cat = [m for m in menu_data if m["categoria"] == categoria and m["tiempo"] in tiempo_filtro]
-            
-            if not platos_cat:
-                st.caption("No hay opciones que coincidan con los filtros elegidos.")
-            
-            for item in platos_cat:
-                plato_id = f"{item['categoria']}_{item['plato']}"
-                is_checked = plato_id in st.session_state.selected_meals
-                
-                col_check, col_plato, col_badge = st.columns([0.5, 4, 1.5])
-                
-                with col_check:
-                    checked = st.checkbox("", value=is_checked, key=plato_id)
-                    if checked:
-                        st.session_state.selected_meals.add(plato_id)
-                    else:
-                        st.session_state.selected_meals.discard(plato_id)
-                        
-                with col_plato:
-                    if checked:
-                        st.markdown(f"~~{item['plato']}~~", unsafe_allow_html=True)
-                    else:
-                        st.markdown(f"**{item['plato']}**")
-                        
-                with col_badge:
-                    if item['tiempo'] == 'Rápido':
-                        st.markdown('<span class="badge-rapido">⚡ Rápido</span>', unsafe_allow_html=True)
-                    elif item['tiempo'] == 'Intermedio':
-                        st.markdown('<span class="badge-intermedio">⏱️ Intermedio</span>', unsafe_allow_html=True)
-                    else:
-                        st.markdown('<span class="badge-elaborado">👨‍🍳 Elaborado</span>', unsafe_allow_html=True)
-            st.markdown("<br>", unsafe_allow_html=True)
-
-# ---------------------------------------------------------
-# SECCIÓN 3: RECETARIO INTEGRADO Y AMPLIADO
-# ---------------------------------------------------------
-elif opcion_menu == "📖 Recetario":
-    st.title("Banco de Recetas 📖")
-    st.write("Explorá nuestras recetas con ingredientes reales, alta densidad proteica y listas para integrarse a la rutina.")
-
-    recetas = [
-        {
-            "nombre": "Brownie Proteico de Porotos Negros",
-            "desc": "Un clásico denso y chocolatoso. Nadie adivina que está hecho de legumbres.",
-            "tags": ["Desayuno", "Merienda", "Freezer", "Proteico"],
-            "tiempo": "40 min", "porciones": "9 porciones", "proteina": "Alta", "dificultad": "Muy Fácil",
-            "ingredientes": [
-                "2 tazas porotos negros cocidos y escurridos", 
-                "1/2 taza cacao amargo en polvo", 
-                "1/2 taza avena en hojuelas", 
-                "1/3 taza miel de caña o sirope", 
-                "1/4 taza aceite de coco fundido", 
-                "2 cdas semillas de chía hidratadas en 6 cdas de agua", 
-                "1 cdita extracto de vainilla", 
-                "1 pizca de sal marina",
-                "Nueces picadas a gusto"
-            ],
-            "pasos": [
-                "Precalentar el horno a 180°C y engrasar un molde cuadrado de 20x20 cm.",
-                "Procesar los porotos cocidos con la chía hidratada y el aceite de coco hasta lograr una crema lisa.",
-                "Agregar el cacao, la avena, el endulzante, la vainilla y la sal. Procesar hasta integrar bien.",
-                "Volcar la mezcla en el molde, emparejar la superficie y colocar nueces por encima.",
-                "Hornear durante 25-30 minutos. Dejar enfriar completamente antes de cortar en cuadrados."
-            ],
-            "por_que": "Lo preparamos durante el Meal Prep del domingo y nos asegura meriendas nutritivas para toda la semana."
-        },
-        {
-            "nombre": "Escones de Lenteja Turca",
-            "desc": "Salados, crocantes por fuera y suaves por dentro. Perfectos para acompañar hummus o palta.",
-            "tags": ["Desayuno", "Merienda", "Freezer", "Sin Gluten"],
-            "tiempo": "35 min", "porciones": "8 unidades", "proteina": "Alta", "dificultad": "Fácil",
-            "ingredientes": [
-                "1 taza lentejas turcas (rojas) remojadas 4 horas en agua",
-                "1/4 taza aceite de oliva",
-                "1/4 taza agua o bebida vegetal",
-                "1 cdita polvo de hornear",
-                "1 cdita sal fina y provenzal a gusto",
-                "2 cdas semillas de sésamo o girasol para espolvorear"
-            ],
-            "pasos": [
-                "Escurrir muy bien las lentejas remojadas.",
-                "Procesar las lentejas con el aceite, el agua, la sal y los condimentos hasta obtener una masa pastosa.",
-                "Agregar el polvo de hornear y mezclar suavemente.",
-                "Formar bollitos sobre una placa de horno con papel manteca o silicona.",
-                "Espolvorear con sésamo y hornear a 190°C por 20-25 minutos hasta que estén dorados."
-            ],
-            "por_que": "Aportan proteína y fibra desde la mañana de forma salada y súper práctica."
-        },
-        {
-            "nombre": "Curry Rápido de Garbanzos",
-            "desc": "El salvavidas cremoso y reconfortante para noches cansadas.",
-            "tags": ["Almuerzo", "Cena", "Rápida", "Freezer"],
-            "tiempo": "20 min", "porciones": "4 porciones", "proteina": "Alta", "dificultad": "Fácil",
-            "ingredientes": [
-                "2 latas de garbanzos (o 3 tazas cocidos)",
-                "1 lata de leche de coco light",
-                "2 tazas de espinaca fresca limpia",
-                "1 cebolla grande picada fino",
-                "2 dientes de ajo y 1 cda de jengibre rallado",
-                "1 cda de curry en polvo + 1/2 cdita de comino",
-                "Aceite de oliva, sal y pimienta"
-            ],
-            "pasos": [
-                "En una olla, sofreír la cebolla, el ajo y el jengibre con oliva a fuego medio.",
-                "Agregar el curry y comino, revolviendo 1 minuto para activar los aromas.",
-                "Sumar los garbanzos escurridos y la leche de coco. Cocinar a fuego lento durante 10 minutos.",
-                "Apagar el fuego, incorporar la espinaca fresca y revolver hasta que reduzca por el calor residual."
-            ],
-            "por_que": "Es nuestro 'plato abrazo'. Ensucia una sola olla y rinde impecable al recalentar."
-        },
-        {
-            "nombre": "Fideos con Pestofu Creamy",
-            "desc": "Salsa verde rica en proteínas que convierte un plato de pastas clásico en una bomba nutricional.",
-            "tags": ["Almuerzo", "Cena", "Rápida", "Proteico"],
-            "tiempo": "15 min", "porciones": "3 porciones", "proteina": "Alta", "dificultad": "Muy Fácil",
-            "ingredientes": [
-                "250g fideos integrales o de legumbres",
-                "200g tofu firme",
-                "1 taza de albahaca fresca",
-                "1/4 taza de nueces o almendras",
-                "2 cdas de levadura nutricional",
-                "1 diente de ajo",
-                "3 cdas de aceite de oliva, sal, pimienta y agua de cocción"
-            ],
-            "pasos": [
-                "Cocinar los fideos en agua hirviendo con sal.",
-                "En licuadora o procesadora, colocar el tofu, albahaca, frutos secos, ajo, levadura nutricional, oliva y sal.",
-                "Procesar agregando chorritos de agua de la pasta caliente hasta lograr una textura cremosa.",
-                "Mezclar el pestofu directamente con la pasta caliente recién escurrida."
-            ],
-            "por_que": "El tofu pasa desapercibido y le da una textura cremosa al pesto sin necesidad de crema pesada."
-        },
-        {
-            "nombre": "Tacos de Lentejas sazonadas",
-            "desc": "Relleno estilo 'carne picada vegetal' con especias intensas.",
-            "tags": ["Cena", "Intermedio", "Meal Prep"],
-            "tiempo": "25 min", "porciones": "4 porciones", "proteina": "Media-Alta", "dificultad": "Fácil",
-            "ingredientes": [
-                "2 tazas lentejas cocidas (al dente)",
-                "1 cebolla y 1/2 morrón rojo picados",
-                "1 cda pimentón ahumado, 1 cdita comino, 1/2 cdita ají molido",
-                "2 cdas extracto de tomate",
-                "Tortillas de maíz o trigo",
-                "Para acompañar: palta, tomate picado y limón"
-            ],
-            "pasos": [
-                "Saltear la cebolla y el morrón en una sartén con aceite de oliva hasta ablandar.",
-                "Agregar las especias y el extracto de tomate, cocinando por 1 minuto.",
-                "Incorporar las lentejas cocidas y aplastar un tercio de ellas con un tenedor para dar textura.",
-                "Cocinar 5-7 minutos hasta que los sabores se integren.",
-                "Servir caliente sobre tortillas doradas con palta y tomate fresco."
-            ],
-            "por_que": "Ideal para cenas divertidas de viernes. La mezcla de especias le da un sabor increíble."
-        },
-        {
-            "nombre": "Falafel Dorado al Horno",
-            "desc": "Croquetas tradicionales de garbanzos remojados pero horneadas para menor contenido de aceite.",
-            "tags": ["Almuerzo", "Cena", "Freezer", "Sin Gluten"],
-            "tiempo": "35 min", "porciones": "12 falafels", "proteina": "Alta", "dificultad": "Intermedio",
-            "ingredientes": [
-                "2 tazas garbanzos secos (remojados 12 hs, NO cocidos)",
-                "1/2 taza cilantro fresco y perejil",
-                "1 cebolla chica y 2 dientes de ajo",
-                "1 cda comino en polvo, sal y pimienta",
-                "1 cdita bicarbonato de sodio",
-                "2 cdas aceite de oliva"
-            ],
-            "pasos": [
-                "Escurrir y secar muy bien los garbanzos remojados.",
-                "Procesar los garbanzos con cebolla, ajo, hierbas frescas y especias hasta obtener un granulado fino.",
-                "Agregar sal y bicarbonato. Dejar reposar la mezcla 15 minutos en heladera.",
-                "Formar bolitas ligeramente achatadas con las manos húmedas.",
-                "Colocar en placa aceitada, pincelar con aceite de oliva y hornear a 200°C por 20 min girando a mitad de cocción."
-            ],
-            "por_que": "Se pueden congelar crudos y mandar directo al horno cuando hay poco tiempo."
-        },
-        {
-            "nombre": "Pizza con Base de Garbanzo y Queso de Girasol",
-            "desc": "Sin harinas refinadas. Una base crujiente y proteica recubierta de cebolla caramelizada.",
-            "tags": ["Cena", "Elaborado", "Sin Gluten"],
-            "tiempo": "45 min", "porciones": "2 personas", "proteina": "Alta", "dificultad": "Intermedio",
-            "ingredientes": [
-                "1 taza harina de garbanzo + 1 taza agua (para la fainá/base)",
-                "2 cebollas grandes cortadas en pluma",
-                "1/2 taza semillas de girasol remojadas 4 horas",
-                "1 cda levadura nutricional, jugo de 1/2 limón, ajo en polvo y sal",
-                "Orégano y aceitunas negras"
-            ],
-            "pasos": [
-                "Mezclar la harina de garbanzo con el agua, 1 cda de oliva y sal. Dejar reposar 20 min.",
-                "Caramelizar las cebollas a fuego lento en sartén con una pizca de sal.",
-                "Procesar el girasol remojado con limón, levadura nutricional, sal y un hilo de agua hasta hacer una crema densa (queso vegetal).",
-                "Volcar la mezcla de garbanzo en una pizzera aceitada y hornear a 200°C por 15 min hasta que firme.",
-                "Cubrir con la crema de girasol, las cebollas salteadas, orégano y terminar de dorar en el horno."
-            ],
-            "por_que": "Satisface las ganas de pizza los fines de semana dejando una sensación súper liviana."
-        },
+RECETAS = {
+    "Saladas": [
+        # --- Recetas previas ---
         {
             "nombre": "Omelette Proteico",
             "porciones": "1-2 porciones",
@@ -652,72 +371,517 @@ elif opcion_menu == "📖 Recetario":
                 "Incorporar las lentejas y garbanzos cocidos. Cocinar 10 minutos más para integrar sabores."
             ]
         },
+        # --- Nuevas recetas agregadas ---
         {
-            "nombre": "Tostada de Palta con Tofu Revuelto",
-            "desc": "El reemplazo definitivo del huevo revuelto, lleno de cúrcuma y proteína vegetal.",
-            "tags": ["Desayuno", "Merienda", "Rápida", "Proteico"],
-            "tiempo": "10 min", "porciones": "2 tostadas", "proteina": "Media-Alta", "dificultad": "Muy Fácil",
+            "nombre": "Pastel de Papas y Lentejas",
+            "porciones": "4 porciones",
+            "proteinas": "22g",
             "ingredientes": [
-                "150g tofu firme desmenuzado con tenedor",
-                "1/2 cdita cúrcuma en polvo",
-                "1/4 cdita sal negra (Kala Namak) para sabor ahuevo o sal común",
-                "1 cdita levadura nutricional",
-                "2 rodajas de pan integral de masa madre",
-                "1/2 palta pisada con limón"
+                "1 kg de papas peladas y hervidas",
+                "2 tazas de lentejas cocidas",
+                "1 cebolla grande y 1/2 pimiento picados",
+                "1/2 taza de puré de tomate",
+                "2 cucharadas de aceite de oliva, nuez moscada, sal y pimienta",
+                "Levadura nutricional o queso vegetal para gratinar"
             ],
             "pasos": [
-                "En sartén con unas gotas de oliva, saltear el tofu desmenuzado durante 3 minutos.",
-                "Agregar la cúrcuma, sal negra y levadura nutricional. Revolver bien por 2 minutos más.",
-                "Tostar el pan, untar con la palta pisada y colocar el tofu revuelto tibio encima."
+                "Hacer un puré suave con las papas hervidas, un chorrito de aceite de oliva, sal y nuez moscada.",
+                "En una sartén, rehogar la cebolla y el pimiento. Agregar las lentejas cocidas y el puré de tomate. Condimentar al gusto y cocinar 5 minutos.",
+                "En una fuente para horno, colocar la base de relleno de lentejas y cubrir de manera pareja con el puré de papas.",
+                "Espolvorear levadura nutricional o queso vegetal por encima.",
+                "Gratinar al horno a 200°C durante 15-20 minutos hasta que la superficie esté dorada."
+            ]
+        },
+        {
+            "nombre": "Lasagna de Verduras y Tofu",
+            "porciones": "6 porciones",
+            "proteinas": "20g",
+            "ingredientes": [
+                "Placas de lasagna precocidas",
+                "300g de tofu firme desmenuzado",
+                "2 tazas de espinaca picada cocida",
+                "2 zucchinis cortados a lo largo en láminas finas",
+                "3 tazas de salsa de tomate casera",
+                "1/2 taza de levadura nutricional sabor queso",
+                "Ajo en polvo, orégano, sal y pimienta"
             ],
-            "por_que": "Aporta energía duradera y saciedad para arrancar mañanas activas."
+            "pasos": [
+                "Mezclar el tofu desmenuzado con la espinaca, levadura nutricional, ajo en polvo, sal y pimienta para crear el relleno cremoso.",
+                "En un molde rectangular para horno, colocar una capa de salsa de tomate en el fondo.",
+                "Alternar capas de placas de lasagna, láminas de zucchini, relleno de tofu y salsa.",
+                "Finalizar con abundante salsa de tomate por encima y un toque de levadura nutricional.",
+                "Cubrir con papel aluminio y hornear a 190°C durante 30 minutos; retirar el aluminio los últimos 10 minutos para dorar."
+            ]
+        },
+        {
+            "nombre": "Musaka de Berenjena",
+            "porciones": "4 porciones",
+            "proteinas": "18g",
+            "ingredientes": [
+                "2 berenjenas grandes cortadas en rodajas de 1 cm",
+                "1.5 tazas de soja texturizada hidratada",
+                "1 cebolla y 2 dientes de ajo picados",
+                "400g de tomate triturado",
+                "1/2 cucharadita de canela en polvo",
+                "Salsa bechamel vegetal (2 cdas harina de avena, 1 cda aceite, 1.5 tazas leche vegetal, nuez moscada)"
+            ],
+            "pasos": [
+                "Dorar las rodajas de berenjena al horno con apenas aceite durante 15 minutos hasta que estén tiernas.",
+                "Saltear la cebolla, ajo y la soja texturizada. Incorporar el tomate y la canela, y cocinar 10 minutos.",
+                "Preparar la bechamel vegetal revolviendo la harina y aceite a fuego medio, sumando la leche vegetal gradualmente hasta espesar.",
+                "En una fuente, alternar capas de berenjena y boloñesa de soja. Cubrir con la salsa bechamel.",
+                "Gratinar en el horno a 200°C por 20 minutos hasta dorar la superficie."
+            ]
+        },
+        {
+            "nombre": "Curry de Garbanzos y Coco",
+            "porciones": "4 porciones",
+            "proteinas": "16g",
+            "ingredientes": [
+                "2 tazas de garbanzos cocidos",
+                "1 lata (400ml) de leche de coco",
+                "1 cebolla picada y 1 taza de zapallo en cubos",
+                "2 cucharadas de pasta de curry rojo o curry en polvo",
+                "1 taza de espinacas frescas",
+                "Aceite de coco, jengibre rallado, sal y cilantro"
+            ],
+            "pasos": [
+                "Saltear la cebolla y los cubos de zapallo con un poco de aceite de coco y jengibre rallado en una olla.",
+                "Agregar la pasta de curry y revolver durante 1 minuto para activar sus aromas.",
+                "Verter la leche de coco y los garbanzos cocidos. Tapar y cocinar a fuego medio durante 15 minutos hasta que el zapallo esté tierno.",
+                "Agregar las espinacas frescas sobre el final y revolver hasta que se marchiten.",
+                "Servir bien caliente decorado con cilantro fresco picado y acompañado de arroz."
+            ]
+        },
+        {
+            "nombre": "Tarta de Verduras y Tofu",
+            "porciones": "4 porciones",
+            "proteinas": "17g",
+            "ingredientes": [
+                "1 tapa de tarta integral",
+                "250g de tofu firme",
+                "1 atado de acelga o espinaca rehogada",
+                "1 cebolla y 1/2 pimiento salteados",
+                "2 cdas de levadura nutricional",
+                "1 cda de fécula de maíz disuelta en 3 cdas de agua",
+                "Nuez moscada, sal y pimienta"
+            ],
+            "pasos": [
+                "Procesar o licuar el tofu firme con la fécula disuelta, la levadura nutricional y los condimentos hasta obtener una crema espesa.",
+                "Mezclar el tofu licuado con las verduras salteadas (acelga/espinaca, cebolla, pimiento).",
+                "Forrar un molde de tarta con la masa integral y verter el relleno de verduras y tofu de forma pareja.",
+                "Hornear a 190°C durante 30 a 35 minutos hasta que la masa esté crocante y el relleno firme."
+            ]
+        }
+    ],
+    "Dulces": [
+        # --- Recetas previas ---
+        {
+            "nombre": "Pancakes Proteicos de Avena",
+            "porciones": "2 porciones (6 pancakes)",
+            "proteinas": "20g",
+            "ingredientes": [
+                "1 taza de harina de avena",
+                "1 scoop (30g) de proteína vegetal en polvo (vainilla o neutra)",
+                "1 banana madura pisada",
+                "1 taza de bebida vegetal",
+                "1 cucharadita de polvo de hornear",
+                "1 cucharadita de canela"
+            ],
+            "pasos": [
+                "Mezclar la banana pisada con la bebida vegetal.",
+                "Agregar la harina de avena, la proteína vegetal, el polvo de hornear y la canela.",
+                "Calentar una sartén antiadherente con unas gotas de aceite de coco.",
+                "Verter porciones de mezcla y cocinar a fuego medio hasta que salgan burbujas, dar vuelta y dorar 1 minuto más."
+            ]
+        },
+        {
+            "nombre": "Bowl Desayuno Proteico de Frutos Rojos",
+            "porciones": "1 porción",
+            "proteinas": "24g",
+            "ingredientes": [
+                "200g de yogur vegetal espeso (o tofu sedoso batido)",
+                "1 scoop de proteína vegetal sabor frutos rojos o vainilla",
+                "1/2 taza de frutos rojos congelados",
+                "Toppings: Granola casera, semillas de chía y manteca de maní"
+            ],
+            "pasos": [
+                "Licuar el yogur vegetal con la proteína y los frutos rojos congelados hasta obtener una consistencia cremosa y firme.",
+                "Servir en un bowl y decorar con la granola, las semillas de chía y una cucharada de manteca de maní."
+            ]
+        },
+        {
+            "nombre": "Mousse de Chocolate Proteico",
+            "porciones": "2 porciones",
+            "proteinas": "15g",
+            "ingredientes": [
+                "250g de tofu sedoso (silken tofu)",
+                "3 cucharadas de cacao amargo en polvo",
+                "3 cucharadas de sirope de arce, agave o endulzante a gusto",
+                "1 cucharadita de extracto de vainilla",
+                "50g de chocolate amargo derretido"
+            ],
+            "pasos": [
+                "Colocar el tofu sedoso en la licuadora o procesadora.",
+                "Añadir el cacao amargo, el endulzante, la vainilla y el chocolate derretido.",
+                "Licuar a alta velocidad durante 2-3 minutos hasta que esté completamente suave.",
+                "Verter en vasos individuales y refrigerar al menos 2 horas antes de servir."
+            ]
+        },
+        {
+            "nombre": "Cookies Proteicas de Maní y Chocolate",
+            "porciones": "8 galletas",
+            "proteinas": "8g (por galleta)",
+            "ingredientes": [
+                "1/2 taza de manteca de maní natural",
+                "1/4 taza de sirope de agave o miel de caña",
+                "1/2 taza de harina de avena",
+                "1 scoop de proteína vegetal de chocolate o vainilla",
+                "1/4 taza de chispas de chocolate amargo"
+            ],
+            "pasos": [
+                "Mezclar la manteca de maní con el sirope hasta integrar bien.",
+                "Agregar la harina de avena y la proteína vegetal formando una masa maleable.",
+                "Incorporar las chispas de chocolate.",
+                "Formar 8 bolitas, aplastarlas sobre una placa para horno con papel manteca y hornear a 180°C durante 10-12 minutos."
+            ]
+        },
+        {
+            "nombre": "Rolls de Canela Proteicos",
+            "porciones": "6 rolls",
+            "proteinas": "14g (por unidad)",
+            "ingredientes": [
+                "1.5 tazas de harina integral o de avena",
+                "1 scoop de proteína de vainilla",
+                "1 cucharada de polvo de hornear",
+                "3/4 taza de yogur vegetal firme",
+                "Relleno: 2 cucharadas de aceite de coco, 2 cucharadas de azúcar mascabo y 1 cucharada de canela"
+            ],
+            "pasos": [
+                "Mezclar la harina, proteína, polvo de hornear y yogur vegetal hasta formar una masa suave.",
+                "Estirar la masa con palo de amasar formando un rectángulo.",
+                "Pincelar con el aceite de coco derretido y espolvorear la mezcla de azúcar mascabo y canela.",
+                "Enrollar a lo largo y cortar en 6 rodajas.",
+                "Colocar en un molde redondo y hornear a 180°C durante 20 minutos."
+            ]
+        },
+        # --- Nuevas recetas agregadas ---
+        {
+            "nombre": "Brownie Proteico de Chocolate",
+            "porciones": "8 cuadrados",
+            "proteinas": "10g (por porción)",
+            "ingredientes": [
+                "1 taza de porotos negros o rojos cocidos (bien enjuagados)",
+                "1/2 taza de cacao amargo en polvo",
+                "1 scoop de proteína vegetal de chocolate",
+                "1/3 taza de sirope de arce o endulzante a elección",
+                "1/4 taza de manteca de maní",
+                "1/2 taza de bebida vegetal",
+                "1/2 taza de chispas de chocolate amargo"
+            ],
+            "pasos": [
+                "Procesar los porotos cocidos junto con la bebida vegetal, la manteca de maní y el sirope hasta lograr una crema lisa.",
+                "Incorporar el cacao amargo y el scoop de proteína vegetal, procesando nuevamente hasta integrar.",
+                "Pasar la mezcla a un bol e incorporar con espátula las chispas de chocolate amargo.",
+                "Verter en un molde cuadrado con papel manteca y hornear a 180°C durante 20-25 minutos.",
+                "Dejar enfriar completamente antes de cortar en 8 porciones."
+            ]
+        },
+        {
+            "nombre": "Brownie Proteico Carrot Cake",
+            "porciones": "8 cuadrados",
+            "proteinas": "9g (por porción)",
+            "ingredientes": [
+                "1.5 tazas de zanahoria rallada finamente",
+                "1 taza de harina de avena",
+                "1 scoop de proteína vegetal sabor vainilla",
+                "1/4 taza de nueces picadas",
+                "1/3 taza de sirope o endulzante",
+                "1/2 taza de leche vegetal",
+                "1 cdita de canela y 1/2 cdita de jengibre en polvo"
+            ],
+            "pasos": [
+                "Mezclar la harina de avena, la proteína de vainilla, la canela y el jengibre en un bol.",
+                "Añadir la leche vegetal y el endulzante mezclando con batidor.",
+                "Incorporar la zanahoria rallada y las nueces picadas envolviendo suavemente.",
+                "Colocar la preparación en un molde antiadherente y hornear a 180°C por 25 minutos.",
+                "Enfriar y cortar en barritas o cuadrados."
+            ]
+        },
+        {
+            "nombre": "Escones de Lenteja Turca",
+            "porciones": "6 unidades",
+            "proteinas": "11g (por unidad)",
+            "ingredientes": [
+                "1 taza de lentejas turcas (rojas) remojadas por 4 horas y escurridas",
+                "1/2 taza de harina de avena",
+                "2 cdas de aceite de oliva o coco",
+                "1 cdita de polvo de hornear",
+                "1 cda de endulzante o pizca de sal (según versión dulce o salada)",
+                "Ralladura de 1 limón o naranja (para versión dulce)"
+            ],
+            "pasos": [
+                "Procesar las lentejas turcas remojadas con el aceite y la ralladura cítrica hasta tener una pasta uniforme.",
+                "Transferir a un bol y agregar la harina de avena, el polvo de hornear y el endulzante.",
+                "Formar discos gruesos de masa de 2 cm de alto y cortar en triángulos (tipo scones).",
+                "Ubicar en una placa para horno y hornear a 180°C durante 18-20 minutos hasta que estén dorados."
+            ]
+        },
+        {
+            "nombre": "Muffins Proteicos de Fruta",
+            "porciones": "6 muffins",
+            "proteinas": "8g (por unidad)",
+            "ingredientes": [
+                "1 taza de harina integral o de avena",
+                "1 scoop de proteína vegetal de vainilla",
+                "1 banana madura pisada",
+                "1/2 taza de arándanos o manzanas picadas",
+                "1/2 taza de leche vegetal",
+                "1 cdita de polvo de hornear y 1 cdita de canela"
+            ],
+            "pasos": [
+                "Integrar la banana pisada con la leche vegetal.",
+                "Sumar la harina, la proteína en polvo, el polvo de hornear y la canela.",
+                "Agregar la fruta elegida (arándanos o manzana) con movimientos envolventes.",
+                "Repartir la masa en pirotines o molde para muffins y hornear a 180°C durante 18-20 minutos."
+            ]
+        }
+    ],
+    "Recetas Estrella": [
+        # --- Recetas previas ---
+        {
+            "nombre": "Bao Buns Rellenos de Tofu Glaseado",
+            "porciones": "4 panes",
+            "proteinas": "22g",
+            "ingredientes": [
+                "Para los panes: 250g de harina 0000, 1/2 cucharadita de levadura seca, 150ml de agua tibia, 1 cda de azúcar",
+                "Relleno: 250g de tofu firme salteado y glaseado con salsa barbacoa/soja",
+                "Acompañamiento: Zanahoria y pepino encurtido, cilantro fresco"
+            ],
+            "pasos": [
+                "Amasar los ingredientes del pan y dejar leudar 1 hora.",
+                "Dividir en bollos, estirar en óvalos, doblar por la mitad con papel manteca en el centro y cocinar al vapor durante 10-12 minutos.",
+                "Dorar el tofu en sartén y pincelar con el glaseado agridulce.",
+                "Rellenar los panes bao tibios con el tofu, los vegetales encurtidos y cilantro."
+            ]
+        },
+        {
+            "nombre": "Niños Envueltos Proteicos",
+            "porciones": "4 porciones",
+            "proteinas": "20g",
+            "ingredientes": [
+                "8 hojas grandes de acelga o repollo blanco blanqueadas",
+                "1 taza de soja texturizada fina hidratada",
+                "1/2 taza de arroz integral cocido",
+                "1 cebolla y 1 diente de ajo picados",
+                "2 tazas de salsa de tomate casera"
+            ],
+            "pasos": [
+                "Saltear la cebolla y el ajo, mezclar con la soja texturizada y el arroz cocido. Condimentar bien.",
+                "Colocar una porción de relleno en cada hoja de acelga/repollo y doblar los bordes hacia adentro formando rollitos.",
+                "Disponer los rollitos en una fuente para horno, cubrir con la salsa de tomate y hornear a 180°C durante 25 minutos."
+            ]
+        },
+        {
+            "nombre": "Tiramisú Proteico en Vaso",
+            "porciones": "2 vasos",
+            "proteinas": "18g",
+            "ingredientes": [
+                "100g de tostadas de arroz o vainillas caseras integrales",
+                "1 taza de café expreso cargado sin azúcar",
+                "200g de tofu sedoso o yogur griego vegetal",
+                "1 scoop de proteína vegetal sabor vainilla",
+                "2 cucharadas de endulzante a gusto",
+                "Cacao amargo en polvo para espolvorear"
+            ],
+            "pasos": [
+                "Procesar el tofu sedoso con la proteína de vainilla y el endulzante hasta obtener una crema suave.",
+                "Humedecer las tostadas/vainillas en el café preparado.",
+                "En vasos individuales, alternar capas de galletas humedecidas y crema proteica.",
+                "Espolvorear cacao amargo en la superficie y enfriar en la heladera mínimo 1 hora."
+            ]
         }
     ]
+}
 
-    # Controles de Búsqueda y Filtro en el Recetario
-    col_busq, col_tag = st.columns([2, 2])
-    with col_busq:
-        search_query = st.text_input("🔍 Buscar por nombre o ingrediente:", "")
-    with col_tag:
-        tag_filtro = st.multiselect(
-            "Filtrar por Etiqueta:",
-            options=["Desayuno", "Merienda", "Almuerzo", "Cena", "Freezer", "Rápida", "Proteico", "Sin Gluten"],
-            default=[]
-        )
+# Inicializar Session State para checkboxes del menú
+if "selected_meals" not in st.session_state:
+    st.session_state.selected_meals = set()
 
-    # Filtrado lógico
-    recetas_filtradas = []
-    for r in recetas:
-        coincide_texto = search_query.lower() in r['nombre'].lower() or search_query.lower() in r['desc'].lower() or any(search_query.lower() in ing.lower() for ing in r['ingredientes'])
-        coincide_tag = True if not tag_filtro else any(t in r['tags'] for t in tag_filtro)
+# ---------------------------------------------------------
+# MENÚ LATERAL DE NAVEGACIÓN
+# ---------------------------------------------------------
+st.sidebar.title("Nuestro Manual")
+st.sidebar.markdown("*Versión Digital 2.0*")
+st.sidebar.divider()
+
+opcion_menu = st.sidebar.radio(
+    "Navegación",
+    [
+        "🏠 Inicio", 
+        "📅 Menú Semanal", 
+        "📖 Recetario", 
+        "⏳ Meal Prep", 
+        "❄️ Freezer", 
+        "🌱 Nutrición"
+    ]
+)
+
+st.sidebar.divider()
+st.sidebar.caption('"Que siempre encontremos disfrute en nutrirnos."')
+
+# ---------------------------------------------------------
+# SECCIÓN 1: INICIO
+# ---------------------------------------------------------
+if opcion_menu == "🏠 Inicio":
+    st.title("Bienvenidos a nuestra cocina 🌿")
+    st.markdown("""
+    Este espacio es la extensión digital de nuestro manual físico. Aquí centralizamos la organización para que cocinar 
+    no sea una carga, sino un acto de cuidado. Una guía viva, flexible y enfocada en la nutrición basada en plantas sin la 
+    rigidez de las dietas convencionales.
+    """)
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("""
+        <div class="card-box">
+            <h3 style="color: #8A9A86;">Filosofía Diaria</h3>
+            <p>No buscamos la perfección. Buscamos reducir la fatiga de decisión. Si tenemos bases listas, comer bien es inevitable.</p>
+        </div>
+        """, unsafe_allow_html=True)
         
-        if coincide_texto and coincide_tag:
-            recetas_filtradas.append(r)
+    with col2:
+        st.markdown("""
+        <div class="card-box">
+            <h3 style="color: #C97A63;">El Método</h3>
+            <p>Cocinamos bases el domingo, congelamos el excedente y ensamblamos bowls o platos rápidos en minutos durante la semana.</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.info("💡 **Sistema de Libertad:** Ingredientes Reales • Proteína Vegetal • Calma")
+
+# ---------------------------------------------------------
+# SECCIÓN 2: MENÚ SEMANAL
+# ---------------------------------------------------------
+elif opcion_menu == "📅 Menú Semanal":
+    st.title("Planificador de Menú Semanal 🗓️")
+    st.write("Seleccioná las opciones que vas a preparar o que ya comiste. Los platos tildados se tacharán automáticamente para ayudarte a no repetir preparaciones.")
+
+    col_f1, col_f2, col_f3 = st.columns([2, 2, 1])
+    
+    with col_f1:
+        cat_filtro = st.multiselect(
+            "Filtrar por Categoría:",
+            options=["Desayunos y Meriendas", "Almuerzos y Cenas"],
+            default=["Desayunos y Meriendas", "Almuerzos y Cenas"]
+        )
+    with col_f2:
+        tiempo_filtro = st.multiselect(
+            "Filtrar por Tiempo/Elaboración:",
+            options=["Rápido", "Intermedio", "Elaborado"],
+            default=["Rápido", "Intermedio", "Elaborado"]
+        )
+    with col_f3:
+        st.write(" ")
+        st.write(" ")
+        if st.button("🔄 Reiniciar Semana", use_container_width=True):
+            st.session_state.selected_meals = set()
+            st.rerun()
 
     st.divider()
 
-    if not recetas_filtradas:
-        st.info("No se encontraron recetas que coincidan con tu búsqueda.")
-    else:
-        for r in recetas_filtradas:
-            with st.expander(f"🍲 {r['nombre']} — ⏱️ {r['tiempo']}"):
-                st.write(f"*{r['desc']}*")
+    for categoria in ["Desayunos y Meriendas", "Almuerzos y Cenas"]:
+        if categoria in cat_filtro:
+            st.subheader(f"🥣 {categoria}" if categoria == "Desayunos y Meriendas" else f"🍲 {categoria}")
+            
+            platos_cat = [m for m in menu_data if m["categoria"] == categoria and m["tiempo"] in tiempo_filtro]
+            
+            if not platos_cat:
+                st.caption("No hay opciones que coincidan con los filtros elegidos.")
+            
+            for item in platos_cat:
+                plato_id = f"{item['categoria']}_{item['plato']}"
+                is_checked = plato_id in st.session_state.selected_meals
                 
-                # Badges de tags
-                tags_html = " ".join([f"`{t}`" for t in r['tags']])
-                st.markdown(f"**Etiquetas:** {tags_html} | **Dificultad:** {r['dificultad']} | **Proteína:** {r['proteina']} | **Rinde:** {r['porciones']}")
+                col_check, col_plato, col_badge = st.columns([0.5, 4, 1.5])
                 
-                col_ing, col_paso = st.columns(2)
-                with col_ing:
-                    st.markdown("#### 🛒 Ingredientes")
-                    for ing in r['ingredientes']:
-                        st.markdown(f"- {ing}")
-                with col_paso:
-                    st.markdown("#### 👨‍🍳 Preparación Paso a Paso")
-                    for idx, paso in enumerate(r['pasos'], 1):
-                        st.markdown(f"**{idx}.** {paso}")
-                
-                st.info(f"💡 **¿Por qué está en nuestro manual?:** {r['por_que']}")
+                with col_check:
+                    checked = st.checkbox("", value=is_checked, key=plato_id)
+                    if checked:
+                        st.session_state.selected_meals.add(plato_id)
+                    else:
+                        st.session_state.selected_meals.discard(plato_id)
+                        
+                with col_plato:
+                    if checked:
+                        st.markdown(f"~~{item['plato']}~~", unsafe_allow_html=True)
+                    else:
+                        st.markdown(f"**{item['plato']}**")
+                        
+                with col_badge:
+                    if item['tiempo'] == 'Rápido':
+                        st.markdown('<span class="badge-rapido">⚡ Rápido</span>', unsafe_allow_html=True)
+                    elif item['tiempo'] == 'Intermedio':
+                        st.markdown('<span class="badge-intermedio">⏱️ Intermedio</span>', unsafe_allow_html=True)
+                    else:
+                        st.markdown('<span class="badge-elaborado">👨‍🍳 Elaborado</span>', unsafe_allow_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
+
+# ---------------------------------------------------------
+# SECCIÓN 3: RECETARIO COMPLETO (CONSERVADO + AMPLIADO)
+# ---------------------------------------------------------
+elif opcion_menu == "📖 Recetario":
+    st.title("Banco de Recetas 📖")
+    st.write("Explorá nuestras preparaciones divididas por categorías. Podés buscar por nombre o ingredientes.")
+
+    # Filtros y Búsqueda
+    col_busq, col_cat = st.columns([2, 2])
+    with col_busq:
+        search_query = st.text_input("🔍 Buscar por nombre o ingrediente:", "")
+    with col_cat:
+        cat_seleccionadas = st.multiselect(
+            "Filtrar por Categoría:",
+            options=list(RECETAS.keys()),
+            default=list(RECETAS.keys())
+        )
+
+    st.divider()
+
+    encontrados = 0
+
+    for cat in cat_seleccionadas:
+        recetas_categoria = RECETAS.get(cat, [])
+        
+        # Filtrado de recetas según el texto de búsqueda
+        recetas_filtradas = []
+        for r in recetas_categoria:
+            coincide_nombre = search_query.lower() in r['nombre'].lower()
+            coincide_ingrediente = any(search_query.lower() in ing.lower() for ing in r['ingredientes'])
+            if coincide_nombre or coincide_ingrediente:
+                recetas_filtradas.append(r)
+        
+        if recetas_filtradas:
+            st.subheader(f"📌 {cat}")
+            for r in recetas_filtradas:
+                encontrados += 1
+                with st.expander(f"🍲 {r['nombre']} — ⚡ Proteínas: {r['proteinas']}"):
+                    st.markdown(f"**Rinde:** {r['porciones']} | **Aporte Proteico:** {r['proteinas']}")
+                    st.markdown("---")
+                    
+                    col_ing, col_pasos = st.columns(2)
+                    with col_ing:
+                        st.markdown("#### 🛒 Ingredientes")
+                        for ing in r['ingredientes']:
+                            st.markdown(f"- {ing}")
+                    
+                    with col_pasos:
+                        st.markdown("#### 👨‍🍳 Preparación Paso a Paso")
+                        for idx, paso in enumerate(r['pasos'], 1):
+                            st.markdown(f"**{idx}.** {paso}")
+            st.markdown("<br>", unsafe_allow_html=True)
+
+    if encontrados == 0:
+        st.info("No se encontraron recetas que coincidan con la búsqueda.")
 
 # ---------------------------------------------------------
 # SECCIÓN 4: MEAL PREP
